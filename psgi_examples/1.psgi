@@ -28,9 +28,6 @@ my $app = sub {
     ];
 };
 
-# Run checks that we have setup $app correctly
-$app = Plack::Middleware::Lint->wrap($app);
-
 # Create a runner object
 my $runner = Plack::Runner->new;
 

@@ -70,9 +70,6 @@ web page.
         ];
     };
 
-    # Run checks that we have setup $app correctly
-    $app = Plack::Middleware::Lint->wrap($app);
-
     # Create a runner object
     my $runner = Plack::Runner->new;
 
@@ -97,15 +94,40 @@ e.g. <a href="http://localhost:5000/any_page.html">http://localhost:5000/any_pag
 we are always returning this, irrespective of the request.
 </p><p>
 You will notice that on the command line you can see the access logs for the web server, this
-is because Plack defaults to development mode and turns on a few extra middleware layers for you.
+is because Plack defaults to development mode and turns on a few extra middleware layers for you,
+specifically AccessLog, StackTrace and Lint.
 </p><p>
-</p><p>
+To see StackTrace in operation comment out line 27 of 1.psgi by adding a hash (#) in front of it:
+<pre>
+    # ["All is good"]                       # Content
+</pre>
+Restart your plackup command (type Ctrl+C to stop the process, then run <code>plackup 1.psgi</code> to start it).
+Now in your web browser go to <a href="http://localhost:5000/">http://localhost:5000/</a> again and you will see
+a StackTrace of the error. Read the error message at the top of the page "response needs to be 3 element array, or 2 element in streaming". Or you can follow each step of the trace, click on the 'Show function arguments' and 'Show lexical variables' links under each section of the trace to help debug the issue. Here we just need to remove the # and
+restart.
+</p>
+<h2>Development</h2>
+<p>
+There are several command line arguments to the plackup command, running <code>perldoc plackup</code> command will
+show you the documentation. The most used it '-r' or '--reload' this tells plackup to monitor you .psgi file
+and also anything in a 'lib' directory in the same directory as your .psgi file.
+<pre>
+    plackup -r 1.psgi
+</pre>
+
+TODO:
+<pre>
+- Show serving static files
+- ErrorDocumentation
+- Deflate
+- TemplateToolkit
+</pre>
 </p>
 <h2>Deployment</h2>
 <p>
 <pre>
     cpanm Task::Plack
-    Starman
+    Apache/Starman
     Reverse-Proxy (Perlbal or nginx)
 </pre>
 

@@ -57,9 +57,6 @@ web page.
     # Code to run our application
     use Plack::Runner;
 
-    # Code to validate that our application is configured correctly
-    use Plack::Middleware::Lint;
-
     # A basic app
     my $app = sub {
         my $env = shift;

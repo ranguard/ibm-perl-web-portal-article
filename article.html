@@ -3,7 +3,7 @@
 <html lang="en"><head> 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
 	<title>IBM: Web Portal</title>
-</head><body>
+</head><body style="width:600px">
 
 <h2>Summary:</h2>
 <p>
@@ -11,7 +11,7 @@
 </p><p>
 Perl has been through a revolution over the last 5 years, this has been named 'Modern Perl'. One of the most significant changes has been a focus on frameworks, reusable code and a clean coding style.
 </p><p>
-We will be demonstrating how to create a web portal using <a href="http://search.cpan.org/dist/Plack/">Plack</a>, most  popular Perl frameworks integrate with Plack so it will be easy to integrate one of those later should you need it.
+We will be demonstrating how to create a web portal using <a href="http://search.cpan.org/dist/Plack/">Plack</a>, most  popular Perl frameworks work with Plack so it will be easy to integrate one of those later should you need to.
 </p><p>
 Plack is Perl superglue for web frameworks and web servers. Plack sits between your code (whether you use a web framework or not) and the web server. This means that you (and your framework) do not need to worry about specifics of a web server, and vice-versa.
 </p><p>
@@ -95,7 +95,7 @@ Save this to a file, called 1.psgi, then use the <a href="http://search.cpan.org
 </pre>
 You will see:
 <pre>
-HTTP::Server::PSGI: Accepting connections at http://SERVER_IP:5000/
+    HTTP::Server::PSGI: Accepting connections at http://SERVER_IP:5000/
 </pre>
 Using your web browser, go to http://SERVER_IP:5000/, if you are developing
 on your desktop computer then <a href="http://localhost:5000/">http://localhost:5000/</a> will work.
@@ -103,17 +103,27 @@ You should now see a page with 'All is good'. In fact if you go to <em>any</em> 
 e.g. <a href="http://localhost:5000/any_page.html">http://localhost:5000/any_page.html</a> because
 we are always returning this, irrespective of the request.
 </p><p>
+You will notice that on the command line you can see the access logs for the web server, this
+is because Plack defaults to development mode and turns on a few extra middleware layers for you.
 </p><p>
 </p><p>
-</p><p>
+</p>
+<h2>Deployment</h2>
+<p>
+<pre>
+    cpanm Task::Plack
+    Starman
+    Reverse-Proxy (Perlbal or nginx)
+</pre>
 
 </p>
-<h2>Further reasources</a>
+<h2>Further reasources</h2>
 <p>
 Perl has a vast number of modules available for use on
 <a href="http://search.cpan.org/">CPAN</a>. The only real problem
-being to work out which are best to use. If you are lost at any
-point <a href="http://search.cpan.org/dist/Task-Kensho/">Task::Kensho</a>
+being to work out which are best to use. A good place to start is
+ <a href="http://search.cpan.org/dist/Task-Kensho/">Task::Kensho</a>
+ which recommends current best practices.
 </p><p>
 
 

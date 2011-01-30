@@ -15,11 +15,8 @@ use warnings;
 # Code to run our application
 use Plack::Runner;
 
-# Code to validate that our application is configured correctly
-use Plack::Middleware::Lint;
-
 # A basic app
-my $app = sub {
+my $default_app = sub {
     my $env = shift;
     return [
         200,    # HTTP Status code
@@ -35,4 +32,4 @@ my $runner = Plack::Runner->new;
 $runner->parse_options(@ARGV);
 
 # Actually run the application
-$runner->run($app);
+$runner->run($default_app);

@@ -20,10 +20,12 @@ my $default_app = sub {
 
 my $dir_app = Plack::App::Directory->new( { root => "/tmp/" } )->to_app;
 
-my $app = builder {
-    mount '/'    => $default_app;
-    mount '/tmp' => $dir_app;
-};
+my $builder = Plack::Builder->new();
+
+$builder->mount('/'    => $default_app);
+$builder->mount('/tmp' => $dir_app);
+
+my $app = $builder->to_app();
 
 my $runner = Plack::Runner->new;
 $runner->parse_options(@ARGV);

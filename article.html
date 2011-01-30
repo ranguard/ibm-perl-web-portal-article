@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"><head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	<title>IBM: Web Portal</title>
+</head><body>
+
+<h2>SUMMARY:</h2>
+<p>
+<em>Use Perl as a simple and powerful framework for your web site; this article will demonstrate how easy it is to get going and how to extend this for your own needs.</em>
+</p><p>
+Perl has been through a revolution over the last 5 years, this has been named 'Modern Perl'. One of the most significant changes has been a focus on frameworks, reusable code and a clean coding style.
+</p><p>
+We will be demonstrating how to create a web portal using <a href="http://search.cpan.org/dist/Plack/">Plack</a>, most  popular Perl frameworks integrate with Plack so it will be easy to integrate one of those later should you need it.
+</p><p>
+Plack is Perl superglue for web frameworks and web servers. Plack sits between your code (whether you use a web framework or not) and the web server. This means that you (and your framework) do not need to worry about specifics of a web server, and vice-versa.
+</p><p>
+Lets get you setup... we are going to use <a href="http://search.cpan.org/dist/App-cpanminus/bin/cpanm">cpanm</a> (from App::cpanminus) to download and install modules into your <a href="http://search.cpan.org/dist/local-lib/lib/local/lib.pm">local::lib</a> (so you do not need root access)
+</p><p>
+<h2>INITIAL SETUP:</h2>
+<pre>
+# get rid of any existing cpan configuration
+mv ~/.cpan ~/.cpan_original
+ 
+# Then one of the following:
+
+# if you can run wget
+wget -O - http://cpanmin.us/ | perl - local::lib App::cpanminus && echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >> ~/.bashrc && . ~/.bashrc
+ 
+# OR if you can run curl
+curl -L http://cpanmin.us/ | perl - local::lib App::cpanminus && echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >> ~/.bashrc && . ~/.bashrc
+ 
+# otherwise, FTP up the contents of http://cpanmin.us to a file called cpanmin.us, make it executable and then run: 
+./cpanmin.us local::lib App::cpanminus && echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >> ~/.bashrc && . ~/.bashrc
+</pre>
+</p><p>
+
+You will now have a <code>perl5</code> directory in your home directory
+
+We will assume you have root access to your server (although not actually rew)
+
+
+use lib "/home/patrick/perl5/lib/perl5";
+use local::lib;
+
+
+</p><p>
+Perl has a vast number of modules available for use on
+<a href="http://search.cpan.org/">CPAN</a>. The only real problem
+being to work out which are best to use. If you are lost at any
+point <a href="http://search.cpan.org/dist/Task-Kensho/">Task::Kensho</a>
+</p><p>
+
+
+
+
+
+
+</p><p>
+
+<a href="http://www.perl.org/about/whitepapers/">Perl Whitepapers</a>
+</p>
+</body>
+</html>

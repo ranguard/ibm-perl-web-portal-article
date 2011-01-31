@@ -54,11 +54,11 @@ web page.
     # Give us diagnostic warnings where possible (ALWAYS use this)
     use warnings;
 
-    # Code to run our application
-    use Plack::Runner;
+    # Allow us to build our application
+    use Plack::Builder;
 
     # A basic app
-    my $app = sub {
+    my $default_app = sub {
         my $env = shift;
         return [
             200,    # HTTP Status code
@@ -67,14 +67,10 @@ web page.
         ];
     };
 
-    # Create a runner object
-    my $runner = Plack::Runner->new;
-
-    # Pass in command line arguments (useful when developing)
-    $runner->parse_options(@ARGV);
-
-    # Actually run the application
-    $runner->run($app);
+    # Run the builder for our application
+    return builder {
+        $default_app;
+    }
 </pre>
 Save this to a file, called 1.psgi, then use the <a href="http://search.cpan.org/dist/Plack/scripts/plackup">plackup</a> command to start your web server from the command line as follows: 
 <pre>
@@ -92,7 +88,7 @@ we are always returning this, irrespective of the request.
 </p><p>
 You will notice that on the command line you can see the access logs for the web server, this
 is because Plack defaults to development mode and turns on a few extra middleware layers for you,
-specifically AccessLog, StackTrace and Lint.
+specifically <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/AccessLog.pm">AccessLog</a>, <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/StackTrace.pm">StackTrace</a> and <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/Lint.pm">Lint</a>.
 </p><p>
 To see StackTrace in operation comment out line 27 of 1.psgi by adding a hash (#) in front of it:
 <pre>
@@ -113,7 +109,55 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
 <pre>
     plackup -r 1.psgi
 </pre>
+</p>
 
+<h2>Extending your application</h2>
+<p>
+    Plack already has many useful applications which you may want to integrate with your web portal, here for example
+    we are using <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/Directory.pm">Plack::App::Directory</a> to
+    get a directory listing and to serve it's content as static files. We will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/URLMap.pm">Plack::App::URLMap</a> to choose which url we want to 'mount' this application on. 
+<pre>
+    #!/usr/bin/env perl
+
+    use lib "$ENV{HOME}/perl5/lib/perl5";
+    use local::lib;
+
+    use strict;
+    use warnings;
+    use Plack::Builder;
+
+    # 'mount' applications on specific URLs
+    use Plack::App::URLMap;
+
+    # Get directory listings and serve files
+    use Plack::App::Directory;
+
+    my $default_app = sub {
+        my $env = shift;
+        return [ 200, [ 'Content-Type' => 'text/html' ], ["All is good"] ];
+    };
+
+    # Get the Directory app, configured with a root directory
+    my $dir_app = Plack::App::Directory->new( { root => "/tmp/" } )->to_app;
+
+    # Create a mapper object
+    my $mapper = Plack::App::URLMap->new();
+
+    # mount our apps on urls
+    $mapper->mount('/'    => $default_app);
+    $mapper->mount('/tmp' => $dir_app);
+
+    # extract the new overall app from the mapper
+    my $app = $mapper->to_app();
+
+    # Run the builder for our application
+    return builder {
+        $app;
+    }
+</pre>
+If you visit <a href="http://localhost/tmp/">http://localhost/tmp/</a> in your browser
+you will now see a directory listing of '/tmp/' - also not <a href="http://localhost/anything_else.html">http://localhost/anything_else.html</a> still hits
+the default_app which we built.
 
 
 TODO:

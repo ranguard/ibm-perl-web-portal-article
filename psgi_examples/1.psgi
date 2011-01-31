@@ -12,8 +12,8 @@ use strict;
 # Give us diagnostic warnings where possible (ALWAYS use this)
 use warnings;
 
-# Code to run our application
-use Plack::Runner;
+# Allow us to build our application
+use Plack::Builder;
 
 # A basic app
 my $default_app = sub {
@@ -25,11 +25,7 @@ my $default_app = sub {
     ];
 };
 
-# Create a runner object
-my $runner = Plack::Runner->new;
-
-# Pass in command line arguments (useful when developing)
-$runner->parse_options(@ARGV);
-
-# Actually run the application
-$runner->run($default_app);
+# Run the builder for our application
+return builder {
+    $default_app;
+}

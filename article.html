@@ -115,7 +115,11 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
 <p>
     Plack already has many useful applications which you may want to integrate with your web portal, here for example
     we are using <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/Directory.pm">Plack::App::Directory</a> to
-    get a directory listing and to serve it's content as static files. We will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/URLMap.pm">Plack::App::URLMap</a> to choose which url we want to 'mount' this application on. 
+    get a directory listing and to serve it's content as static files. We will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/URLMap.pm">Plack::App::URLMap</a> to choose which url we want to 'mount' this application on.
+</p>
+<p>
+    <a href="psgi_examples/2.psgi">2.psgi</a>
+    
 <pre>
     #!/usr/bin/env perl
 
@@ -158,7 +162,29 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
 If you visit <a href="http://localhost/tmp/">http://localhost/tmp/</a> in your browser
 you will now see a directory listing of '/tmp/' - also not <a href="http://localhost/anything_else.html">http://localhost/anything_else.html</a> still hits
 the default_app which we built.
+</p>
+<p>
+    There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">App</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Middleware</a> modules available to 
+help, here are just a few which you can add to your builder{}
 
+<pre>
+    return builder {
+
+        # Page to show when requested file is missing
+        enable "Plack::Middleware::ErrorDocument",
+            404 => "$root/page_not_found.html";
+
+        # These files can be served directly
+        enable "Plack::Middleware::Static",
+            path => qr{[gif|png|jpg|swf|ico|mov|mp3|pdf|js|css]$},
+            root => $root;
+
+        # Our application
+        $tt_app;
+    }
+    
+    
+</pre>
 
 TODO:
 <pre>

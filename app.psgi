@@ -6,6 +6,7 @@ use Plack::App::Cascade;
 use Plack::Builder;
 use Plack::Middleware::Static;
 use Plack::Middleware::ErrorDocument;
+use Plack::App::URLMap;
 use Plack::App::TemplateToolkit;
 
 my $root = '/Users/leo/svn/london-pm/LPM/root';
@@ -36,16 +37,16 @@ my $cascade = Plack::App::Cascade->new;
 $cascade->add($tt_app);
 $cascade->add($restriced_app);
 
-my $app = builder {
-    mount '/' => $cascade;
-};
+my $urlmap = Plack::App::URLMap->new;
+$urlmap->map( "/" => $cascade );
+
+my $app = $urlmap->to_app;
 
 $app = Plack::Middleware::ErrorDocument->wrap(
     $app,
 
     # Does not work????
-    404        => "/page_not_found.html",
-    subrequest => 1
+    404        => "$root/page_not_found.html",
 );
 
 # Binary files can be served directly
@@ -62,9 +63,6 @@ $app = Plack::Middleware::Static->wrap(
     root => $root
 );
 
-
-# Plack::Middleware::Deflater might be good to use here
-
-builder {
+return builder {
     $app;
 }

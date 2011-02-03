@@ -6,27 +6,31 @@ use local::lib;
 use strict;
 use warnings;
 use Plack::Builder;
-
 use Plack::App::URLMap;
 use Plack::App::Directory;
 
-my $default_app = sub {
-    my $env = shift;
-    return [ 200, [ 'Content-Type' => 'text/html' ], ["All is good"] ];
-};
+my $root = '/path/to/htdocs/';
+
+my $default_app = Plack::App::TemplateToolkit->new(
+    root => $root,    # Required
+)->to_app();
 
 my $dir_app = Plack::App::Directory->new( { root => "/tmp/" } )->to_app;
 
-# mount our apps on urls
 my $mapper = Plack::App::URLMap->new();
-$mapper->mount('/'    => $default_app);
-$mapper->mount('/tmp' => $dir_app);
+
+$mapper->mount( '/'    => $default_app );
+$mapper->mount( '/tmp' => $dir_app );
 
 # extract the new overall app from the mapper
 my $app = $mapper->to_app();
 
-# Run the builder for our application, and add extra Middleware
+# Run the builder for our application
 return builder {
+
+    # Page to show when requested file is missing
+    enable "Plack::Middleware::ErrorDocument",
+        404 => "$root/page_not_found.html";
 
     # These files can be served directly
     enable "Plack::Middleware::Static",

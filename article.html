@@ -30,7 +30,9 @@ curl -L http://cpanmin.us/ | perl - local::lib App::cpanminus && echo 'eval $(pe
 <h2>Setting up Plack</h2>
 <p>
 <pre>
-cpanm Plack
+    cpanm Plack
+    # Please also run this as we will us it in the demonstration later
+    cpanm Plack::App::TemplateToolkit
 </pre>
 The <code>perl5</code> folder in your home directory will now have all the modules you need.
 The next step is to create a .psgi configuration file which will allow us to return a
@@ -67,7 +69,7 @@ web page.
         ];
     };
 
-    # Run the builder for our application
+    # Return the builder
     return builder {
         $default_app;
     }
@@ -154,7 +156,7 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
     # extract the new overall app from the mapper
     my $app = $mapper->to_app();
 
-    # Run the builder for our application
+    # Return the builder
     return builder {
         $app;
     }
@@ -164,13 +166,27 @@ you will now see a directory listing of '/tmp/' - also not <a href="http://local
 the default_app which we built.
 </p>
 <p>
-    There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">App</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Middleware</a> modules available to 
-help, here are just a few which you can add to your builder{}
+    There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">Plack::Apps</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Plack::Middleware</a> modules available to 
+help with common tasks. We are going to look at <a href="http://search.cpan.org/dist/Plack-App-TemplateToolkit/">
+Plack::App::TemplateToolkit</a>, which parses files through the templateing engine <a href="http://search.cpan.org/dist/">Template-Toolkit</a> (TT). Images and other static content should not
+go through TT, so we are going to configure <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/Static.pm">Plack::Middleware::Static</a> to directly
+serve files with specific extensions. On top of this we want to have a nice looking page when there is a 404 (file not found), for this we will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/ErrorDocument.pm">Plack::Middleware::ErrorDocument</a>.
+All the code we need to add is as follows:
 
 <pre>
+    
+    # A link to your htdocs root folder
+    my $root = '/path/to/htdocs/';
+    
+    # Create a new template toolkit application (which we will default to)
+    my $default_app = Plack::App::TemplateToolkit->new(
+        root => $root,    # Required
+    )->to_app();
+    
     return builder {
 
         # Page to show when requested file is missing
+        # this will not be processes with TT
         enable "Plack::Middleware::ErrorDocument",
             404 => "$root/page_not_found.html";
 
@@ -180,21 +196,18 @@ help, here are just a few which you can add to your builder{}
             root => $root;
 
         # Our application
-        $tt_app;
+        $default_app;
     }
-    
     
 </pre>
 
-TODO:
-<pre>
-- Show serving static files
-- ErrorDocumentation
-- Deflate
-- TemplateToolkit
-</pre>
+
+
+
+
+
 </p>
-<h2>Further reasources</h2>
+<h2>Further resources</h2>
 <p>
 Perl has a vast number of modules available for use on
 <a href="http://search.cpan.org/">CPAN</a>. The only real problem

@@ -2,13 +2,13 @@
 <p>
 <em>Use Perl as a simple and powerful framework for your web site; this article will demonstrate how easy it is to get going and then customise a Plack application for your own needs.</em>
 </p><p>
-Perl has been through a revolution over the last few years - 'Modern Perl', based on experienced and effective Perl 5 programmers knowledge, it is about using the languages idioms and taking advantage of the best of <a href="http://search.cpan.org">CPAN</a>.
+Perl has been through a revolution over the last few years - 'Modern Perl', based on experienced and effective Perl 5 programmers knowledge, is about using the languages idioms and taking advantage of the best of <a href="http://search.cpan.org">CPAN</a>.
 </p><p>
 We will be demonstrating how to create a web site using <a href="http://search.cpan.org/dist/Plack/">Plack</a>, a 'Moden Perl' tool. Most Perl frameworks work with (or are migrating to) Plack, therefor it will be easy to integrate one of those later should you want to.
 </p><p>
 Plack is Perl superglue for web frameworks and web servers. Plack sits between your code (whether you use a web framework or not) and the web server (Apache, Starman, etc). This means that you (and your framework) do not need to worry about specifics of a web server, and vice-versa.
 </p><p>
-Lets get you setup... we are going to use <a href="http://search.cpan.org/dist/App-cpanminus/bin/cpanm">cpanm</a> (from <a href="http://search.cpan.org/dist/App-cpanminus/">App::cpanminus</a>) to download and install modules into your <a href="http://search.cpan.org/dist/local-lib/lib/local/lib.pm">local::lib</a> (so you do not need root access)
+Let's get you setup... we are going to use <a href="http://search.cpan.org/dist/App-cpanminus/bin/cpanm">cpanm</a> (from <a href="http://search.cpan.org/dist/App-cpanminus/">App::cpanminus</a>) to download and install modules into your <a href="http://search.cpan.org/dist/local-lib/lib/local/lib.pm">local::lib</a> (so you do not need root access)
 </p><p>
 <h2>Initial setup:</h2>
 <pre>
@@ -117,7 +117,7 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
 <p>
     Plack already has many useful applications which you may want to integrate with your web portal, here for example
     we are using <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/Directory.pm">Plack::App::Directory</a> to
-    get a directory listing and to serve it's content as static files. We will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/URLMap.pm">Plack::App::URLMap</a> to choose which url we want to 'mount' this application on.
+    get a directory listing and to serve it's content as static files. We will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/App/URLMap.pm">Plack::App::URLMap</a> to choose which URL we want to 'mount' this application on.
 </p>
 <p>
     <a href="psgi_examples/2.psgi">2.psgi</a>
@@ -168,7 +168,7 @@ the default_app which we built.
 <p>
     There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">Plack::Apps</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Plack::Middleware</a> modules available to 
 help with common tasks. We are going to look at <a href="http://search.cpan.org/dist/Plack-App-TemplateToolkit/">
-Plack::App::TemplateToolkit</a>, which parses files through the templateing engine <a href="http://search.cpan.org/dist/">Template-Toolkit</a> (TT). Images and other static content should not
+Plack::App::TemplateToolkit</a>, which parses files through the templating engine <a href="http://search.cpan.org/dist/">Template-Toolkit</a> (TT). Images and other static content should not
 go through TT, so we are going to configure <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/Static.pm">Plack::Middleware::Static</a> to directly
 serve files with specific extensions. On top of this we want to have a nice looking page when there is a 404 (file not found), for this we will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/ErrorDocument.pm">Plack::Middleware::ErrorDocument</a>.
 All the code we need to add is as follows:

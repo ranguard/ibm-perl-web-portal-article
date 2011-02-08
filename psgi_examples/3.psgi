@@ -1,5 +1,3 @@
-#!/usr/bin/env perl
-
 use lib "$ENV{HOME}/perl5/lib/perl5";
 use local::lib;
 

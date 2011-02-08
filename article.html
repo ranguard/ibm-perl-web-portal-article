@@ -42,8 +42,6 @@ web page.
 
 <a href="psgi_examples/1.psgi">1.psgi</a>
 <pre>
-    #!/usr/bin/env perl
-
     # Tell Perl where our lib is (ALWAYS use this)
     use lib "$ENV{HOME}/perl5/lib/perl5";
 
@@ -123,8 +121,6 @@ show you the documentation. The most used is '-r' or '--reload' this tells plack
     <a href="psgi_examples/2.psgi">2.psgi</a>
     
 <pre>
-    #!/usr/bin/env perl
-
     use lib "$ENV{HOME}/perl5/lib/perl5";
     use local::lib;
 
@@ -165,6 +161,8 @@ If you visit <a href="http://localhost/tmp/">http://localhost/tmp/</a> in your b
 you will now see a directory listing of '/tmp/' - also not <a href="http://localhost/anything_else.html">http://localhost/anything_else.html</a> still hits
 the default_app which we built.
 </p>
+
+<h2>More Middleware and Apps</h2>
 <p>
     There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">Plack::Apps</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Plack::Middleware</a> modules available to 
 help with common tasks. We are going to look at <a href="http://search.cpan.org/dist/Plack-App-TemplateToolkit/">
@@ -201,12 +199,16 @@ All the code we need to add is as follows:
     
 </pre>
 
-
-
-
-
-
+At this stage it is probably worth investigating one of the many
+web frameworks which Plack works with. These frameworks offer far
+more structure and support for doing anything more complex. If you
+are looking for an introductory framework,look at <a href="http://www.catalystframework.org/">Catalyst</a> (good for large projects)
+or either
+<a href="http://www.mojolicious.org/">Mojolicious</a> or <a href="http://perldancer.org/">Dancer</a> which are newer bit also have a faster
+learning curve. The Perl.org <a href="http://www.perl.org/about/whitepapers/perl-webframework.html">web frameworks white paper</a> discusses just a few of the advantages of using a framework.
 </p>
+
+
 <h2>Further resources</h2>
 <p>
 Perl has a vast number of modules available for use on

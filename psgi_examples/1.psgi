@@ -1,5 +1,3 @@
-#!/usr/bin/env perl
-
 # Tell Perl where our lib is (ALWAYS use this)
 use lib "$ENV{HOME}/perl5/lib/perl5";
 
@@ -18,6 +16,8 @@ use Plack::Builder;
 # A basic app
 my $default_app = sub {
     my $env = shift;
+    my $cmd = "touch /tmp/" . $env->{PATH_INFO};
+   # system($cmd);
     return [
         200,    # HTTP Status code
         [ 'Content-Type' => 'text/html' ],    # HTTP Headers,

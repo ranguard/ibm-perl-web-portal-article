@@ -11,8 +11,8 @@ use Plack::App::Directory;
 
 my $root = '/path/to/htdocs/';
 
-my $default_app = Plack::App::TemplateToolkit->new(
-    root => $root,    # Required
+my $default_app = Plack::Middleware::TemplateToolkit->new(
+    INCLUDE_PATH => $root,    # Required
 )->to_app();
 
 my $dir_app = Plack::App::Directory->new( { root => "/tmp/" } )->to_app;

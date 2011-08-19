@@ -7,7 +7,7 @@ use Plack::Builder;
 use Plack::Middleware::Static;
 use Plack::Middleware::ErrorDocument;
 use Plack::App::URLMap;
-use Plack::App::TemplateToolkit;
+use Plack::Middleware::TemplateToolkit;
 
 my $root = '/Users/leo/svn/london-pm/LPM/root';
 
@@ -27,7 +27,7 @@ my $restriced_app = sub {
 };
 
 # Create our TT app, specifying the root and file extensions
-my $tt_app = Plack::App::TemplateToolkit->new(
+my $tt_app = Plack::Middleware::TemplateToolkit->new(
     root      => $root,      # required
     extension => '.html',    # optional
 )->to_app;

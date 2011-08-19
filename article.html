@@ -32,7 +32,7 @@ curl -L http://cpanmin.us/ | perl - local::lib App::cpanminus && echo 'eval $(pe
 <pre>
     cpanm Plack
     # Please also run this as we will us it in the demonstration later
-    cpanm Plack::App::TemplateToolkit
+    cpanm Plack::Middleware::TemplateToolkit
 </pre>
 The <code>perl5</code> folder in your home directory will now have all the modules you need.
 The next step is to create a .psgi configuration file which will allow us to return a
@@ -167,8 +167,8 @@ the default_app which we built.
 </p>
 <p>
     There are many <a href="http://search.cpan.org/search?query=Plack::App&mode=module">Plack::Apps</a> and <a href="http://search.cpan.org/search?query=Plack::Middleware&mode=module">Plack::Middleware</a> modules available to 
-help with common tasks. We are going to look at <a href="http://search.cpan.org/dist/Plack-App-TemplateToolkit/">
-Plack::App::TemplateToolkit</a>, which parses files through the templating engine <a href="http://search.cpan.org/dist/">Template-Toolkit</a> (TT). Images and other static content should not
+help with common tasks. We are going to look at <a href="http://search.cpan.org/dist/Plack-Middleware-TemplateToolkit/">
+Plack::Middleware::TemplateToolkit</a>, which parses files through the templating engine <a href="http://search.cpan.org/dist/Template-Toolkit/">Template-Toolkit</a> (TT). Images and other static content should not
 go through TT, so we are going to configure <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/Static.pm">Plack::Middleware::Static</a> to directly
 serve files with specific extensions. On top of this we want to have a nice looking page when there is a 404 (file not found), for this we will use <a href="http://search.cpan.org/dist/Plack/lib/Plack/Middleware/ErrorDocument.pm">Plack::Middleware::ErrorDocument</a>.
 All the code we need to add is as follows:
@@ -179,8 +179,8 @@ All the code we need to add is as follows:
     my $root = '/path/to/htdocs/';
     
     # Create a new template toolkit application (which we will default to)
-    my $default_app = Plack::App::TemplateToolkit->new(
-        root => $root,    # Required
+    my $default_app = Plack::Middleware::TemplateToolkit->new(
+        INCLUDE_PATH => $root,    # Required
     )->to_app();
     
     return builder {
